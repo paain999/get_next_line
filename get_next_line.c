@@ -6,7 +6,7 @@
 /*   By: dajimene <dajimene@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:50:49 by dajimene          #+#    #+#             */
-/*   Updated: 2023/02/03 15:13:29 by dajimene         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:46:48 by dajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,8 @@ char	*get_next_line(int fd)
 	
 	breaker = 1;
 	stash = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &line, 0) < 0)
-		return (NULL);
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (0);
 	line = NULL;
 	read_and_stash(fd, &stash);
 	if (stash == NULL)

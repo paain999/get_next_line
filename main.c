@@ -14,5 +14,6 @@ int	main(void)
 			break ;
 		free(line);
 	}
+	close(fd);
 	return (0);
 }
