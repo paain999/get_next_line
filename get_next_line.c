@@ -6,7 +6,7 @@
 /*   By: dajimene <dajimene@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 11:50:49 by dajimene          #+#    #+#             */
-/*   Updated: 2023/02/06 18:46:48 by dajimene         ###   ########.fr       */
+/*   Updated: 2023/02/09 17:45:26 by dajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static void	add_to_stash(char *buff, t_list **stash, int readed)
 		return ;
 	new_node->next = NULL;
 	new_node->content = malloc(sizeof(char)*(readed+1));
+	i = 0;
 	while (buff[i])
 	{
 		new_node->content[i] = buff[i];
