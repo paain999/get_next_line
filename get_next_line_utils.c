@@ -5,91 +5,116 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dajimene <dajimene@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/23 11:50:52 by dajimene          #+#    #+#             */
-/*   Updated: 2023/02/03 15:03:32 by dajimene         ###   ########.fr       */
+/*   Created: 2023/02/10 13:13:19 by dajimene          #+#    #+#             */
+/*   Updated: 2023/02/24 21:31:16 by dajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	freestash(t_list *stash)
+char	*join(char *dest, char * stash, char *buff)
 {
-	t_list *current;
-	t_list *next;
+	int	i;
+	int	j;
+	int newlen;
 
-	current = stash;
-	while (current)
-	{
-		free(current->content);
-		next = current->next;
-		free(current);
-		current = next;
-	}
-}
-
-int	found_newline(t_list *stash)
-{
-	int		i;
-	t_list	*current;
-	
-	if (stash == NULL)
-		return (0);
-	current = get_last_node(stash);
 	i = 0;
-	while (current->content[i])
+	j = 0;
+	newlen = ft_strlen(stash) + ft_strlen(buff);
+	while (i <= newlen && stash[i])
 	{
-		if (current->content[i] == '\n')
-			return (1);
+		dest[i] = stash[i];
 		i++;
 	}
-	return (0);	
+	while (i <= newlen && buff[j])
+		dest[i++] = buff[j++];
+	dest[i] = '\0';
+	return (dest);
 }
 
-t_list	*get_last_node(t_list *stash)
+char	*ft_strjoin(char *stash, char *buff)
 {
-	t_list *current;
-	
-	current = stash;
-	while (current && current->next)
-		current = current->next;
-	return (current);
-}
+	char	*result;
 
-void	create_line(char **line, t_list *stash)
-{
-	int	i;
-	int	len;
-	int	breaker;
-	
-	len = 0;
-	while (stash)
+	if (!stash)
 	{
-		breaker = 1;
-		i = 0;
-		while (stash->content[i] && breaker)
-		{
-			if (stash->content[i] == '\n')
-			{
-				len++;
-				breaker = 0;
-			}
-			else
-			{
-				len++;
-				i++;
-			}
-		}
-		stash = stash->next;
+		stash = (char *)malloc(1 * sizeof(char));
+		stash[0] = '\0';
 	}
-	*line = malloc(sizeof(char) * (len + 1));
+	if (!stash || !buff)
+		return (NULL);
+	result = (char *)malloc(1 + ft_strlen(stash) + ft_strlen(buff) * sizeof(char));
+	if (!result)
+		return (NULL);
+	result = join(result, stash, buff);
+	free(stash);
+	return (result);
 }
 
-int	ft_strlen(const char *str)
+char	*ft_strdup( char *s)
+{
+	char	*copy;
+	char	*src;
+	int		i;
+
+	i = 0;
+	src = (char *)s;
+	if (!src)
+		return (NULL);
+	copy = (char *)malloc(ft_strlen(src) + 1);
+	if (!copy)
+		return (NULL);
+	while (src[i] != '\0')
+	{
+		copy[i] = src[i];
+		i++;
+	}
+	copy[i] = '\0';
+	return (copy);
+}
+
+int	ft_strlen(char *str)
 {
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 		i++;
 	return (i);
+}
+
+char	*ft_strchr(char *str, int c)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (str[i])
+	{
+		if (str[i] == (char)c)
+			return ((char *)&str[i]);
+		i++;
+	}
+	if (str[i] == (char)c)
+		return ((char *)&str[i]);
+	return (NULL);
+}
+
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	const char	*srcc;
+	char		*dst;
+
+	if ((dest == src) || n == 0)
+		return (dest);
+	if (!dest && !src)
+		return (0);
+	dst = (char *)dest;
+	srcc = (const char *)src;
+	while (n--)
+		dst[n] = srcc[n];
+	return (dest);
 }

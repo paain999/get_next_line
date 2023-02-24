@@ -5,13 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dajimene <dajimene@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/23 11:50:54 by dajimene          #+#    #+#             */
-/*   Updated: 2023/02/06 18:12:23 by dajimene         ###   ########.fr       */
+/*   Created: 2023/02/10 13:13:13 by dajimene          #+#    #+#             */
+/*   Updated: 2023/02/24 20:00:18 by dajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+
+# ifndef BUFFER_SIZE
+#	define BUFFER_SIZE 1
+# endif
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -20,21 +24,12 @@
 # include <unistd.h>
 # include <fcntl.h>
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 5
-#endif
-
-typedef struct	s_list
-{
-	char			*content;
-	struct s_list	*next;
-}				t_list;
 
 char	*get_next_line(int fd);
-int		ft_strlen(const char *str);
-int		found_newline(t_list *stash);
-t_list	*get_last_node(t_list *stash);
-void 	create_line(char **line, t_list *stash);
-void	freestash(t_list *stash);
+char	*ft_strjoin(char *stash, char *buff);
+int		ft_strlen(char *str);
+char	*ft_strdup(char *s);
+char	*ft_strchr(char *str, int c);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 
 #endif
