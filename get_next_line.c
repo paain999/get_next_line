@@ -6,7 +6,7 @@
 /*   By: dajimene <dajimene@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:10:30 by dajimene          #+#    #+#             */
-/*   Updated: 2023/02/24 21:38:08 by dajimene         ###   ########.fr       */
+/*   Updated: 2023/02/27 18:22:42 by dajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	*create_line(char *stash)
 	return (line);
 }
 
+//SI LO LEIDO ES MENOR QUE EL BUFFER_SIZE, SIGNIFICA QUE YA NO HAY MAS NADA QUE LEER.
 
 char	*get_next_line(int fd)
 {
