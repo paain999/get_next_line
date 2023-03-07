@@ -6,7 +6,7 @@
 /*   By: dajimene <dajimene@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 13:13:19 by dajimene          #+#    #+#             */
-/*   Updated: 2023/02/24 21:31:16 by dajimene         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:28:59 by dajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,36 +85,20 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-char	*ft_strchr(char *str, int c)
+char	*ft_strchr(char *stash, int c)
 {
 	int	i;
 
 	i = 0;
-	if (!str)
+	if (!stash)
 		return (NULL);
-	while (str[i])
+	while (stash[i])
 	{
-		if (str[i] == (char)c)
-			return ((char *)&str[i]);
+		if (stash[i] == (char)c)
+			return ((char *)&stash[i]);
 		i++;
 	}
-	if (str[i] == (char)c)
-		return ((char *)&str[i]);
+	if (stash[i] == (char)c)
+		return ((char *)&stash[i]);
 	return (NULL);
-}
-
-void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	const char	*srcc;
-	char		*dst;
-
-	if ((dest == src) || n == 0)
-		return (dest);
-	if (!dest && !src)
-		return (0);
-	dst = (char *)dest;
-	srcc = (const char *)src;
-	while (n--)
-		dst[n] = srcc[n];
-	return (dest);
 }

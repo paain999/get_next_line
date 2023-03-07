@@ -6,7 +6,7 @@
 /*   By: dajimene <dajimene@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 13:13:13 by dajimene          #+#    #+#             */
-/*   Updated: 2023/02/24 20:00:18 by dajimene         ###   ########.fr       */
+/*   Updated: 2023/03/06 19:50:06 by dajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#	define BUFFER_SIZE 1
+#	define BUFFER_SIZE 10
 # endif
 
 # include <stdio.h>

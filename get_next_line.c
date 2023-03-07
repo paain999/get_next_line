@@ -6,7 +6,7 @@
 /*   By: dajimene <dajimene@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:10:30 by dajimene          #+#    #+#             */
-/*   Updated: 2023/02/27 18:22:42 by dajimene         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:19:56 by dajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,33 @@
 
 char	*clean_stash(char *stash)
 {
-	char	*new_stash;
 	int		i;
 	int		j;
+	char	*cleanned;
 
 	i = 0;
 	while (stash[i] && stash[i] != '\n')
 		i++;
-	if (stash[i] == '\0')
+	if (stash[i] == '\0' || !stash[i])
 	{
 		free(stash);
+		stash = NULL;
 		return (NULL);
 	}
-	i += (stash[i] == '\n');
-	new_stash = malloc(sizeof(char) * (ft_strlen(stash) - i));
-	if (!new_stash)
+	cleanned = malloc(sizeof(char) * (ft_strlen(stash) - i + 2));
+	if (!cleanned)
 		return (NULL);
+	i++;
 	j = 0;
-	while (stash[i + j])
-	{
-		new_stash[j] = stash[i + j];
-		j++;
-	}
-	new_stash[j] = '\0';
+	while (stash[i])
+		cleanned[j++] = stash[i++];
+	cleanned[j] = '\0';
 	free(stash);
-	return (new_stash);
+	stash = NULL;
+	return (cleanned);
 }
 
-void	*create_line(char *stash)
+char	*create_line(char *stash)
 {
 	char	*line;
 	int		i;
@@ -51,8 +50,7 @@ void	*create_line(char *stash)
 	i = 0;
 	while (stash[i] && stash[i] != '\n')
 		i++;
-	if (stash[i] == '\n')
-		i++;
+	i += (stash[i] == '\n');
 	line = malloc(sizeof(char) * (i + 1));
 	if (!line)
 		return (NULL);
@@ -68,33 +66,43 @@ void	*create_line(char *stash)
 	return (line);
 }
 
-//SI LO LEIDO ES MENOR QUE EL BUFFER_SIZE, SIGNIFICA QUE YA NO HAY MAS NADA QUE LEER.
+char	*add_to_stash(int fd, char *stash)
+{
+	char	*buff;
+	int		readed;
+	
+	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buff)
+		return (NULL);
+	readed = 1;
+	while (!ft_strchr(stash, '\n') && readed != 0)
+	{
+		readed = (int)read(fd, buff, BUFFER_SIZE);
+		if(readed == -1)
+		{
+			free(buff);
+			buff = NULL;
+			return (NULL);
+		}
+		buff[readed] = '\0';
+		stash = ft_strjoin(stash, buff);
+	}
+	free(buff);
+	buff = NULL;
+	return(stash);
+}
 
 char	*get_next_line(int fd)
 {
 	static char		*stash[4096];
-	char			*buff;
-	int				readed;
-
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	char			*line;
+	
+	if(fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	readed = 1;
-	buff = malloc(sizeof(char) * (BUFFER_SIZE) + 1);
-	if (!buff)
+	stash[fd] = add_to_stash(fd, stash[fd]);
+	if (!stash[fd])
 		return (NULL);
-	while (!ft_strchr(stash[fd], '\n') && readed != 0)
-	{
-		readed = (int)read(fd, buff, BUFFER_SIZE);
-		if ((!stash[fd] && readed == 0) || readed == -1)
-		{
-			free(buff);
-			return (NULL);
-		}
-		buff[readed] = '\0';
-		stash[fd] = ft_strjoin(stash[fd], buff);
-	}
-	free(buff);
-	buff = create_line(stash[fd]);
+	line = create_line(stash[fd]);
 	stash[fd] = clean_stash(stash[fd]);
-	return (buff);
+	return(line);
 }
