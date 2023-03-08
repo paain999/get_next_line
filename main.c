@@ -8,8 +8,8 @@ int	main(void)
 	int i = 0;
 	char *line;
 
-	fd = open("test.txt", O_RDONLY);
-	while (i < 3)
+	fd = open("read_error.txt", O_RDONLY);
+	while (i < 5)
 	{
 		line = get_next_line(fd);
 		printf("%s", line);

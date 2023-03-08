@@ -6,7 +6,7 @@
 /*   By: dajimene <dajimene@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:10:30 by dajimene          #+#    #+#             */
-/*   Updated: 2023/03/07 19:19:56 by dajimene         ###   ########.fr       */
+/*   Updated: 2023/03/08 21:37:32 by dajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ char	*clean_stash(char *stash)
 	char	*cleanned;
 
 	i = 0;
+	cleanned = NULL;
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	if (stash[i] == '\0' || !stash[i])
@@ -42,28 +43,29 @@ char	*clean_stash(char *stash)
 
 char	*create_line(char *stash)
 {
-	char	*line;
+	char	*str;
 	int		i;
 
 	if (!stash || !stash[0])
 		return (NULL);
 	i = 0;
+	str = NULL;
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	i += (stash[i] == '\n');
-	line = malloc(sizeof(char) * (i + 1));
-	if (!line)
+	str = (char *)malloc(sizeof(char) * (i + 1));
+	if (!str)
 		return (NULL);
 	i = 0;
 	while (stash[i] && stash[i] != '\n')
 	{
-		line[i] = stash[i];
+		str[i] = stash[i];
 		i++;
 	}
 	if (stash[i] == '\n')
-		line[i++] = '\n';
-	line[i] = '\0';
-	return (line);
+		str[i++] = '\n';
+	str[i] = '\0';
+	return (str);
 }
 
 char	*add_to_stash(int fd, char *stash)
@@ -71,7 +73,7 @@ char	*add_to_stash(int fd, char *stash)
 	char	*buff;
 	int		readed;
 	
-	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buff)
 		return (NULL);
 	readed = 1;
@@ -94,11 +96,12 @@ char	*add_to_stash(int fd, char *stash)
 
 char	*get_next_line(int fd)
 {
-	static char		*stash[4096];
+	static char		*stash[1024];
 	char			*line;
 	
 	if(fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	line = NULL;
 	stash[fd] = add_to_stash(fd, stash[fd]);
 	if (!stash[fd])
 		return (NULL);
