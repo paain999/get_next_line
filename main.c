@@ -8,7 +8,7 @@ int	main(void)
 	int i = 0;
 	char *line;
 
-	fd = open("read_error.txt", O_RDONLY);
+	fd = open("files/read_error.txt", O_RDONLY);
 	while (i < 5)
 	{
 		line = get_next_line(fd);
